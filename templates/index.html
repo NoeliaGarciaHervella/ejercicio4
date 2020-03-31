@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Consumo</title>
+    <style>
+    #snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        font-size: 17px;
+        }
+
+        #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+    </style>
+    <script>
+        function check() {
+            var toret = true;
+            var mensaje = "";
+            const edKilometro = document.getElementById("edKilometro");
+            const edTiempo = document.getElementById("edTiempo");
+            const edConsumo = document.getElementById("edConsumo");
+            var kilometro = edKilometro.value.trim();
+            var tiempo = edTiempo.value.trim();
+            var consumo = edConsumo.value.trim();
+
+
+
+            if((kilometro.length === 0) || (tiempo.length === 0) || (consumo.length === 0)){
+                mensaje = "Los campos son obligatorios";
+                toret = false;
+            }else{
+                if ((kilometro <= 0) || (tiempo <= 0) || (consumo <= 0)){
+                    mensaje = "Las variables deben ser mayor que cero";
+                    toret = false;
+                }else{
+                    if (isNaN(kilometro) || isNaN(kilometro) || isNaN(kilometro) ){
+                        mensaje = "Las variables deben ser numeros";
+                        toret = false;
+                    }
+                }
+            }
+            if(toret == false){
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                x.innerText = mensaje;
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }
+
+
+            return  toret ;
+
+        }
+    </script>
+
+</head>
+<body>
+    <h1>Consumo del vehículo</h1>
+
+    <form id="frmConsumo"
+        action="/consumo"
+        method="post"
+        onsubmit="return check()">
+
+        <label for="edKilometro">Kilometros</label>
+        <input type="number" id="edKilometro" name="edKilometro">
+        <label for="edTiempo">Tiempo en horas</label>
+        <input type="number" id="edTiempo" name="edTiempo">
+        <label for="edConsumo">Consumo</label>
+        <input type="number" id="edConsumo" name="edConsumo">
+        <input type="submit" value="Enviar datos">
+        <div id="snackbar"></div>
+
+
+    </form>
+</body>
+</html>
